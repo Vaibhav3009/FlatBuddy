@@ -40,7 +40,7 @@ const hobbiesAndHabitsReducer = (state = initialState, action) =>{
     }
     case(ON_LOCATION_CHANGE):{
       const address = payload;
-      return {...state, address};
+      return {...state, location:address};
     }
     default:
       return state;
