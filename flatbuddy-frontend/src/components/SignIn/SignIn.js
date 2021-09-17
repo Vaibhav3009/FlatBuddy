@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { storage,auth } from '../firebase'
 import userAdd from '../../actions/UserAction'
+import {loggedInUser} from '../../actions/hobbiesAndHabitsAction'
 import {connect} from 'react-redux'
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
+import { getSuggestedQuery } from '@testing-library/react';
 class SignIn extends Component {
 
     constructor(){
@@ -14,7 +16,7 @@ class SignIn extends Component {
             inValid: false
         }
     }
-
+ 
     componentDidMount(){
         if(localStorage.getItem("user")!=undefined || localStorage.getItem("user")!=null){
             fetch(`http://localhost:8080/users/email=${this.props.emailId}`)
@@ -36,7 +38,7 @@ class SignIn extends Component {
 
         
     }
-
+  
     login=()=>{
         // localStorage.setItem("users","admin"),
         // window.location.reload();
@@ -50,13 +52,15 @@ class SignIn extends Component {
     fetch(`http://localhost:8080/users/email=${this.state.emailId}`)
     .then(response => response.json())
     .then( data =>  {
-        console.log("asdasdsadsa")
+        
         console.log(data)
         this.props.userAdd(data)
-        localStorage.setItem("userId",JSON.stringify(data.id));
-       this.props.history.push("/dashboard")
-    
+
+
         
+       localStorage.setItem("userId",JSON.stringify(data.id));
+       this.props.history.push("/dashboard")
+       this.props.loggedInUser(data)
 
     }).catch((error)=>{
         console.log(error)
@@ -104,12 +108,13 @@ class SignIn extends Component {
 
 const mapStateToProps = state => {
     return {
-        user:state.user
+        user:state.user,
+        hobbiesAndHabits:state.hobbiesAndHabits
     }
 }
 const mapDispatchToProps = dispatch => {
     return bindActionCreators({
-        userAdd
+        userAdd,loggedInUser
     },dispatch)
        
 }

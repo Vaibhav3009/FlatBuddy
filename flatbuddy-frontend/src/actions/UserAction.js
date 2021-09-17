@@ -1,4 +1,4 @@
-import { ON_USER_SUBMIT } from "./types"
+import { ON_USER_SUBMIT ,ON_USER_LOGIN} from "./types"
 
  const userAdd = initialState =>async dispatch=> {
      console.log(initialState)
@@ -8,5 +8,9 @@ import { ON_USER_SUBMIT } from "./types"
     }
     )
 }
+
+
+
+
 
 export default userAdd

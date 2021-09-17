@@ -4,6 +4,7 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
+import { getResults, getResultsUpdate } from "../actions/hobbiesAndHabitsAction";
 import {
   Combobox,
   ComboboxInput,
@@ -14,7 +15,9 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import { onLocationChange } from "../actions/hobbiesAndHabitsAction";
-const Search = () => {
+const Search = (props) => {
+  const state = useSelector(state => {
+    return(state.hobbiesAndHabits)});
   const hobbiesAndHabits = useSelector(state => state.hobbiesAndHabits);
   const dispatch = useDispatch();
   const { ready, value, suggestions: { status, data }, setValue, clearSuggestions } = usePlacesAutocomplete({
@@ -33,10 +36,21 @@ const Search = () => {
   const handleSelect = async (address) => {
     setValue(address, false);
     clearSuggestions();
-    dispatch(onLocationChange(address ));
+    await dispatch(onLocationChange(address ));
+    const payload = {
+      state,id:localStorage.getItem('userId')
+    }
+  if(props.isOnResult){
+    dispatch(getResultsUpdate(payload))
+}
+
   };
   return (
-    <div className="search">
+    <div>
+    
+    <span style={{width:'20%',margin:0,padding:'0'}}>Choose Location</span>
+    
+  <div>
       <Combobox onSelect={handleSelect}>
         <ComboboxInput
           value={value}
@@ -53,6 +67,7 @@ const Search = () => {
           </ComboboxList>
         </ComboboxPopover>
       </Combobox>
+      </div>
     </div>
   );
 }

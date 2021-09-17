@@ -3,6 +3,7 @@ import { ON_HABITS_CHANGE,
   ON_LOCATION_CHANGE, 
   ON_HOBBIES_CHANGE,
   ON_SUBMIT,
+  ON_USER_LOGIN,
   ON_GET_RESULT
  } from "./types";
 import axios from "../utils/axios";
@@ -19,7 +20,14 @@ export const onHobbiesChange = (newHobbies) =>{
     payload:newHobbies
   }
 };
-
+export const loggedInUser = initialState =>async dispatch=> {
+  console.log(initialState)
+ dispatch ({
+     type:ON_USER_LOGIN,
+     payload:initialState
+ }
+ )
+}
 export const onLocationChange = (address) => {
   return {
     type: ON_LOCATION_CHANGE,
@@ -36,7 +44,7 @@ export const onBudgetChange = (budgetObject) => {
 export const getResults = payload => async dispatch => {
   
   console.log("enter")
-    fetch(`http://localhost:8080/users/${payload.id}/result?budgetMin=${payload.state.budgetMin}&budgetMax=${payload.state.budgetMax}&location=${payload.state.location}`)
+    fetch(`http://localhost:8080/users/${payload.id}/result`)
     .then(response => response.json())
     .then( data =>  {
       console.log(data)
@@ -49,6 +57,22 @@ export const getResults = payload => async dispatch => {
   
     })
   }
+  export const getResultsUpdate = payload => async dispatch => {
+  
+    console.log("enter")
+      fetch(`http://localhost:8080/users/${payload.id}/result?budgetMin=${payload.state.budgetMin}&budgetMax=${payload.state.budgetMax}&location=${payload.state.location}`)
+      .then(response => response.json())
+      .then( data =>  {
+        console.log(data)
+        dispatch( {
+      type:ON_GET_RESULT,
+      payload:data
+    })
+      
+    }).catch((error)=>{
+    
+      })
+    }
 
 
 export const onSubmit = payload => async dispatch=>{

@@ -9,7 +9,7 @@ const ResultReducer = (state = initialState, action) =>{
       case(ON_GET_RESULT):{
          
         console.log(payload)
-        return [...state,payload];
+        return [...state,...payload];
       }
       
      default:

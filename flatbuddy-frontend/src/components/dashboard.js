@@ -6,8 +6,9 @@ import SignOutButton from './SignOut';
 import { onSubmit } from '../actions/hobbiesAndHabitsAction';
 import userAdd from '../actions/UserAction';
 import { getResults } from '../actions/hobbiesAndHabitsAction';
-
-const Dashboard = () =>{
+import styles from '../css/dashboard.module.css'
+import { withRouter } from 'react-router-dom';
+const Dashboard = (props) =>{
   const state = useSelector(state => {console.log(state)
     return(state.hobbiesAndHabits)});
   
@@ -28,16 +29,28 @@ const Dashboard = () =>{
     await dispatch(onSubmit(payload))
     dispatch(getResults(payload))
     
-    console.log("result",results)
+    if(results!=[] && results!=null){
+      props.history.push("/results")
+    }
   }
 
 
   return(
-    <div>
-      <LeftSideBar/>
+    <div className="container">
+      
+       <div className='row'>
+       <div className={`col-4 text-center ${styles.leftSide}`}>
+      
+      <LeftSideBar isOnResult={false}/>
+      
+      </div>
+      <div className='col-8'>
       <HobbiesAndHabits/>
-      <div>
-        <button onClick = {()=>getResultPage()}
+      </div>
+      </div>
+    
+      <div style={{textAlign:"center",marginTop:'20px'} }>
+        <button className='btn-primary rounded' onClick = {()=>getResultPage()}
         >Submit</button>
       </div>
       <div>
@@ -47,4 +60,4 @@ const Dashboard = () =>{
   )
 }
 
-export default Dashboard;
+export default withRouter(Dashboard);

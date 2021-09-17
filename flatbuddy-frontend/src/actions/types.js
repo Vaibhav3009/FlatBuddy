@@ -5,3 +5,4 @@ export const ON_BUDGET_CHANGE = "ON_BUDGET_CHANGE";
 export const ON_SUBMIT = "ON_SUBMIT";
 export const ON_USER_SUBMIT = "ON_USER_SUBMIT"
 export const ON_GET_RESULT = "ON_GET_RESULT"
+export const ON_USER_LOGIN = "ON_USER_LOGIN"
