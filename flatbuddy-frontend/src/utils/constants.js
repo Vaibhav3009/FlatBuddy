@@ -7,7 +7,7 @@ export const BudgetRange=[
   {
     text: "5000-10000",
     budgetMin: 5000,
-    budgetMax: 5000
+    budgetMax: 10000
   },
   {
     text: "10000-20000",
